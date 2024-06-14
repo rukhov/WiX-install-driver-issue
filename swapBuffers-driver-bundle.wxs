@@ -19,7 +19,7 @@
     <Variable Name="InstallFolder" bal:Overridable="yes" Type="formatted" Value="[ProgramFiles6432Folder][WixBundleManufacturer]\[WixBundleName]"/>
 
     <Chain>
-      <MsiPackage Id="VirtruFlt" 
+      <MsiPackage Id="swapBuffers" 
         ForcePerMachine="yes"
         Compressed="yes"
         EnableFeatureSelection="no"
