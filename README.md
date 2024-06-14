@@ -1,7 +1,7 @@
 # Calling to the InstallHinfSection SETUPAPI function makes bundle installer to run second install instance.
 
 ## WiX-install-driver-issue
-This is a minimal set of code for WiX bug report
+This is a minimal set of code for WiX bug report https://github.com/wixtoolset/issues/issues/8567
 
 ## Steps to reproduce.
 
