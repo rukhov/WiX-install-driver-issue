@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Wix 
+  xmlns="http://wixtoolset.org/schemas/v4/wxs" 
+  xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+  <Bundle
+    Name="swapBuffers Driver bundle"
+    Version="1.0.0"
+    UpgradeCode="{1BE6327C-EDF0-4A2C-89AA-035E5A0EB603}"
+    DisableModify="no"
+    Manufacturer="WDKsamples">
+
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication
+        Theme="rtfLicense"
+        LicenseFile="license.rtf"
+        />
+    </BootstrapperApplication>
+
+    <Variable Name="InstallFolder" bal:Overridable="yes" Type="formatted" Value="[ProgramFiles6432Folder][WixBundleManufacturer]\[WixBundleName]"/>
+
+    <Chain>
+      <MsiPackage Id="VirtruFlt" 
+        ForcePerMachine="yes"
+        Compressed="yes"
+        EnableFeatureSelection="no"
+        Vital="yes"
+        Visible="no"
+        SourceFile="swapBuffers-driver-package.msi">
+        <MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]" />
+      </MsiPackage>  
+    </Chain>
+  </Bundle>
+</Wix>

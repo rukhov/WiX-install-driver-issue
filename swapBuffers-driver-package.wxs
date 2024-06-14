@@ -1,0 +1,58 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package 
+	  Name="swapBuffers Driver" 
+	  Manufacturer="WDKsamples" 
+	  Version="1.0.0" 
+	  UpgradeCode="{B5D2E837-5307-4376-88FE-1CA0ED02A47C}"
+    ProductCode="{02311353-8903-4012-AD42-61C6E9D4C7EB}"
+    Scope="perMachine"
+    >
+
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER"/>
+
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Feature Id="Main" Level="1" Title="Application files" Description="Main feature description.">
+      <ComponentGroupRef Id="Driver" />
+    </Feature>
+
+  </Package>
+
+  <Fragment>
+
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="INSTALLFOLDER" Name="!(bind.Property.Manufacturer)\!(bind.Property.ProductName)"/>
+    </StandardDirectory>
+
+    <ComponentGroup Id="Driver" Directory="INSTALLFOLDER">
+      <Component Guid="{F9996441-45F0-4384-9137-829466F86203}">
+        <File Id='swapBuffers.sys' Name="swapBuffers.sys" Source='swapBuffers\swapBuffers.sys' KeyPath='yes'/>
+        <File Id='swapBuffers.inf' Name="swapBuffers.inf" Source='swapBuffers\swapBuffers.inf' Vital='yes'/>
+        <File Id='swapBuffers.cat' Name="swapBuffers.cat" Source='swapBuffers\swapBuffers.cat' Vital='yes'/>
+      </Component>
+    </ComponentGroup>
+
+    <CustomAction Id='Install_Driver' 
+        Execute='deferred' 
+        Directory='INSTALLFOLDER' 
+        Return='check' 
+        Impersonate='no'
+        ExeCommand='RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultInstall 132 [INSTALLFOLDER]swapBuffers.inf' />
+
+    <CustomAction Id='Uninstall_Driver' 
+        Execute='deferred' 
+        Directory='INSTALLFOLDER' 
+        Return='check' 
+        Impersonate='no'
+        ExeCommand='RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultUninstall 132 [INSTALLFOLDER]swapBuffers.inf' />
+
+    <InstallExecuteSequence>
+      <Custom Action="Install_Driver" After="InstallFiles" Condition='NOT Installed'></Custom>
+      <Custom Action="Uninstall_Driver" Before="RemoveFiles" Condition='Installed'></Custom>
+    </InstallExecuteSequence>
+
+  </Fragment>
+
+</Wix>
